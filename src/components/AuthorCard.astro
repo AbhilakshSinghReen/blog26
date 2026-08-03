@@ -1,0 +1,39 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  author: CollectionEntry<'authors'>;
+}
+
+const { author } = Astro.props;
+
+// data/authors/*.json stores `image` as a bare filename, so resolve it against
+// data/images/ to get an optimizable asset rather than a raw public URL.
+const avatars = import.meta.glob<{ default: ImageMetadata }>(
+  '/data/images/*.{jpg,jpeg,png,webp,avif}',
+  { eager: true },
+);
+const avatar = avatars[`/data/images/${author.data.image}`]?.default;
+
+const links = (
+  [
+    ['Twitter', author.data.twitter],
+    ['GitHub', author.data.github],
+    ['LinkedIn', author.data.linkedin],
+    ['Portfolio', author.data.portfolio],
+  ] as const
+).filter((entry): entry is readonly [string, string] => Boolean(entry[1]));
+---
+
+<aside class="author-card">
+  {avatar && <Image src={avatar} alt={author.data.name} width={48} height={48} />}
+  <div>
+    <strong>{author.data.name}</strong>
+    <div class="links">
+      {links.map(([label, url]) => (
+        <a href={url} rel="me noopener noreferrer" target="_blank">{label}</a>
+      ))}
+    </div>
+  </div>
+</aside>

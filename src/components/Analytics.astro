@@ -1,0 +1,14 @@
+---
+// Drop-in analytics. Lives in a component rather than inline in BaseLayout so
+// the portfolio page can opt in with one import even if it uses its own layout.
+//
+// Note the absence of is:inline: unlike the theme script, this *should* be a
+// deferred module. It bundles through Vite (so the import resolves), runs after
+// first paint, and cannot delay rendering. docs/design.md allows the analytics
+// path to be the JS-heavy part of the site; it does not allow it to be in the
+// way of the text.
+---
+
+<script>
+  import '../scripts/analytics';
+</script>

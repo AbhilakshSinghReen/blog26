@@ -1,0 +1,39 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AuthorCard from '../../components/AuthorCard.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const author = await getEntry(post.data.author);
+---
+
+<BaseLayout title={post.data.title} description={post.data.summary}>
+  <article>
+    <h1>{post.data.title}</h1>
+    <p class="meta">
+      <time datetime={post.data.publishedAt.toISOString()}>
+        {post.data.publishedAt.toLocaleDateString('en-GB', { dateStyle: 'long' })}
+      </time>
+      {/* Explicit string: Astro 7's compressHTML:'jsx' strips whitespace between
+        inline elements, which otherwise glues the date to the separator. */}
+    {post.data.tags.length > 0 && <span>{' · '}{post.data.tags.join(', ')}</span>}
+    </p>
+    {author && <AuthorCard author={author} />}
+    <p class="summary">{post.data.summary}</p>
+    <Image
+      src={post.data.thumbnail}
+      alt={post.data.thumbnailAlt}
+      widths={[400, 800]}
+      sizes="(max-width: 44rem) 100vw, 44rem"
+    />
+    <Content />
+  </article>
+  <p><a href="/">&larr; All posts</a></p>
+</BaseLayout>

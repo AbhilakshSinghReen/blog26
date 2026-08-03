@@ -1,0 +1,21 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+import { SITE } from '../../site.config.mjs';
+
+// Not a navbar: design.md gives exactly one navigable destination (home), since
+// /portfolio is deliberately unlinked. This is a home affordance plus the theme
+// control. On the homepage the wordmark is the <h1>; elsewhere it's a link, so
+// each page has exactly one top-level heading.
+const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html';
+---
+
+<header class="site-header">
+  {
+    isHome ? (
+      <h1 class="site-title">{SITE.title}</h1>
+    ) : (
+      <a class="site-title" href="/">{SITE.title}</a>
+    )
+  }
+  <ThemeToggle />
+</header>

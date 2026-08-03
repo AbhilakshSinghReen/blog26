@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Page not found" noindex>
+  {/*
+    GitHub Pages serves this file for any path it cannot resolve. Canonical URLs
+    carry no trailing slash, so /blog/slug/ has nowhere to land and arrives here
+    — normalise it and bounce before anything paints.
+
+    This runs in <head>, inline and synchronous, so the 404 body never flashes.
+    It cannot loop: the target has no trailing slash, so a second visit falls
+    through to the real 404 below.
+
+    Why here rather than a redirect file per post: a stub at
+    dist/blog/slug/index.html would shadow dist/blog/slug.html, and /blog/slug
+    would serve the redirect instead of the post.
+  */}
+  <script is:inline slot="head">
+    (function () {
+      var p = location.pathname;
+      if (p.length > 1 && p.charAt(p.length - 1) === '/') {
+        location.replace(p.replace(/\/+$/, '') + location.search + location.hash);
+      }
+    })();
+  </script>
+
+  <h1>Page not found</h1>
+  <p class="meta">That page doesn&rsquo;t exist, or it moved.</p>
+  <p><a href="/">&larr; All posts</a></p>
+</BaseLayout>

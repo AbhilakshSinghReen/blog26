@@ -1,0 +1,49 @@
+---
+import '../styles/global.css';
+import SiteHeader from '../components/SiteHeader.astro';
+import Analytics from '../components/Analytics.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  noindex?: boolean;
+}
+
+const { title, description, noindex = false } = Astro.props;
+
+// build.format: 'file' makes Astro.url.pathname carry the .html suffix
+// (/index.html, /blog/slug.html). Strip it so the canonical URL matches the
+// trailing-slash-free URLs we actually link to and ship.
+const path = Astro.url.pathname.replace(/index\.html$/, '').replace(/\.html$/, '');
+const canonical = new URL(path === '/' ? '/' : path.replace(/\/$/, ''), Astro.site);
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="canonical" href={canonical} />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    {noindex && <meta name="robots" content="noindex" />}
+    {/*
+      is:inline is load-bearing. Astro's default turns <script> into
+      type="module", which is deferred and therefore runs *after* first paint —
+      that would cause the exact flash of wrong theme this prevents. Inline
+      keeps it a classic script: synchronous and render-blocking.
+    */}
+    <script is:inline>
+      const stored = localStorage.getItem('theme');
+      document.documentElement.dataset.theme =
+        stored ?? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    </script>
+    <slot name="head" />
+  </head>
+  <body>
+    <div class="wrap">
+      <SiteHeader />
+      <slot />
+    </div>
+    <Analytics />
+  </body>
+</html>

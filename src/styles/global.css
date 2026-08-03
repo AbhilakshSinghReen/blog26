@@ -1,0 +1,210 @@
+:root {
+  color-scheme: light;
+  --bg: #ffffff;
+  --fg: #14161a;
+  --muted: #5c6370;
+  --border: #e4e6eb;
+  --accent: #4f46e5;
+}
+
+/* No-JS / no explicit choice: follow the OS. The :not() guard is what lets an
+   explicit light choice win over a dark OS setting. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --bg: #0d0f13;
+    --fg: #e8eaee;
+    --muted: #9aa1ad;
+    --border: #262a33;
+    --accent: #a5b4fc;
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #0d0f13;
+  --fg: #e8eaee;
+  --muted: #9aa1ad;
+  --border: #262a33;
+  --accent: #a5b4fc;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 16px/1.65 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+.wrap {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 5rem;
+}
+
+a { color: var(--accent); }
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+pre {
+  overflow-x: auto;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+/* Tables must scroll inside their own box. Without this a table wider than the
+   column drags the whole page sideways on mobile — markdown gives us no wrapper
+   element, so the table becomes its own scroll container. */
+article table {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  margin: 1.5rem 0;
+}
+
+article th,
+article td {
+  border: 1px solid var(--border);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  white-space: nowrap;
+}
+
+article th { font-weight: 600; }
+
+/* Touch targets. Measured 36px (toggle) and 22px (author links) with a mouse;
+   both are tight for a finger, so grow them where the pointer is coarse. */
+@media (pointer: coarse) {
+  .theme-toggle {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .author-card .links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2rem;
+  }
+}
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.site-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: var(--fg);
+  text-decoration: none;
+
+  /* Tight line box so flex centring aligns the glyphs, not 11px of inherited
+     leading. With line-height 1.65 the box centres perfectly but the text
+     inside it drifts by the font's ascent/descent metrics, which vary between
+     the fonts `ui-sans-serif` resolves to on different systems. */
+  line-height: 1;
+  display: flex;
+  align-items: center;
+}
+
+/* The head script always sets data-theme when JS runs, so a missing attribute
+   means no JS — in which case the button cannot work and shouldn't be shown. */
+.theme-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+}
+
+:root[data-theme] .theme-toggle { display: inline-flex; }
+
+.theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.theme-toggle svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Show the action, not the state: dark theme offers the sun. */
+.theme-toggle .icon-sun { display: none; }
+:root[data-theme='dark'] .theme-toggle .icon-sun { display: block; }
+:root[data-theme='dark'] .theme-toggle .icon-moon { display: none; }
+
+.post-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 2.5rem;
+}
+
+.post-list a {
+  color: inherit;
+  text-decoration: none;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.post-list img {
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+.post-list h2 { margin: 0; font-size: 1.3rem; }
+.post-list p { margin: 0; color: var(--muted); }
+
+.meta { color: var(--muted); font-size: 0.9rem; }
+
+/* Sits in the post header, between the date and the summary. */
+.author-card {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin: 1.25rem 0;
+}
+
+.author-card img {
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.author-card .links {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  font-size: 0.85rem;
+}
+
+.summary {
+  font-size: 1.15rem;
+  line-height: 1.55;
+  color: var(--muted);
+  margin: 0 0 1.75rem;
+}
