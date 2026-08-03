@@ -1,0 +1,64 @@
+---
+title: "Consensus Without Tears"
+summary: "Raft is not simple, but it is explainable, and that turned out to matter more."
+thumbnail: "../images/thumb-6.jpg"
+thumbnailAlt: "Abstract gradient cover art for Consensus Without Tears"
+publishedAt: 2026-02-13
+author: abhilakshsinghreen
+tags: ["distributed", "raft"]
+draft: false
+---
+
+Raft is not simple, but it is explainable, and that turned out to matter more. This post is placeholder content used to exercise the build
+pipeline: frontmatter validation, image optimisation, syntax highlighting and
+the author card all get touched on the way through.
+
+## Where the problem starts
+
+The first version always looks fine. It survives review, it passes the tests,
+and it behaves perfectly until the day the input distribution shifts. What
+follows is the walk-through of that failure and the reasoning that fixed it.
+
+![Diagram showing the initial approach for Consensus Without Tears](../images/fig-6-a.jpg)
+
+A few things are worth pulling out before the code:
+
+- The naive version is correct on the happy path, which is what makes it dangerous.
+- The cost shows up as tail latency long before it shows up as errors.
+- Every mitigation here trades memory for predictability.
+
+## The shape of the fix
+
+```go
+func (r *Raft) becomeCandidate() {
+	r.state = Candidate
+	r.currentTerm++
+	r.votedFor = r.id
+	r.resetElectionTimer()
+}
+```
+
+That is the whole change. It reads as a small refactor, but it moves the
+expensive decision from request time to build time, which is the only reason
+the numbers move at all.
+
+> The fastest work is the work that was already done before anyone asked.
+
+## Measuring it
+
+| Approach | p50 latency | p99 latency | Resident memory | Notes on the trade-off |
+| --- | --- | --- | --- | --- |
+| Naive per-request lookup | 12 ms | 480 ms | 40 MB | Correct, but tail latency collapses under load |
+| Batched with a 5 ms window | 9 ms | 110 ms | 96 MB | Adds a fixed delay to every request |
+| Precomputed at build time | 3 ms | 14 ms | 180 MB | Only viable when nothing varies per request |
+
+![Benchmark results after applying the fix](../images/fig-6-b.jpg)
+
+The p99 column is the one that matters. Median latency barely moved, which is
+exactly why averages kept hiding the problem in the first place.
+
+## What I would do differently
+
+Start by writing down what varies per request. If the answer is *nothing*, the
+work belongs in a build step, not a server. That single question would have
+saved the first two attempts described above.
