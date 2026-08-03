@@ -1,0 +1,56 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  # Lets you redeploy the current main without an empty commit.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  # Required by actions/deploy-pages: it mints an OIDC token to prove to the
+  # Pages service that this deployment really came from this workflow.
+  id-token: write
+
+# One deployment at a time. cancel-in-progress stays false deliberately: a
+# cancelled deploy can leave the Pages service mid-publish, and the queue here
+# is a push queue, not a CI queue worth pruning.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # Astro 7 needs >= 22.12. Pinned to the major that matches local dev.
+          node-version: '24'
+          cache: npm
+
+      # npm ci, not npm install: it installs exactly the lockfile and fails if
+      # package.json and the lock have drifted, rather than silently resolving
+      # a different tree than the one tested locally.
+      - run: npm ci
+
+      - run: npm run build
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
