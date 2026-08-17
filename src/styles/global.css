@@ -1,5 +1,40 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Scales the whole type system at once. Every size below is in rem, so moving
+   the root keeps every ratio already chosen here — set this on body instead and
+   .summary would end up smaller than the body text it introduces. A percentage
+   rather than a px value so it still respects the reader's browser font size. */
+html {
+  font-size: 120%;
+}
+
+/* Phones. At 19.2px a 320px viewport gives ~27 characters per line, and the
+   header wordmark grows enough to push the theme toggle past the edge. Scale
+   the root back and tighten the gutter; desktop keeps the larger type.
+   (rem in a media query resolves against the initial 16px, so this is 480px.) */
+@media (max-width: 30rem) {
+  html {
+    font-size: 105%;
+  }
+
+  .wrap {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
 :root {
   color-scheme: light;
+
+  /* Images keep the width they had before the column was widened (696px, the
+     old content box) and centre in the wider column, so the text grows without
+     the artwork inflating with it. */
+  --media-width: 36.25rem;
+
   --bg: #ffffff;
   --fg: #14161a;
   --muted: #5c6370;
@@ -33,11 +68,16 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--fg);
-  font: 16px/1.65 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* 1rem, not 16px: a fixed px here would override the root scaling above and
+     pin body text at 16px while every other element grew. */
+  font: 1rem/1.65 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
 .wrap {
-  max-width: 44rem;
+  /* 900px at the 19.2px root. Deliberately wider than the ~75-character measure
+     would suggest: this trades line length (now ~93 characters) for a page that
+     uses more of a widescreen. Media does not follow it — see --media-width. */
+  max-width: 46.875rem;
   margin: 0 auto;
   padding: 2.5rem 1.25rem 5rem;
 }
@@ -49,7 +89,34 @@ img {
   height: auto;
 }
 
+/* Post thumbnail and in-post figures: capped and centred rather than stretched
+   to the full text column. */
+article img {
+  max-width: min(100%, var(--media-width));
+  margin-inline: auto;
+  display: block;
+}
+
+/* The author avatar is also inside <article>, but it is a 48px flex item, not
+   media — auto margins there would absorb the free space and push the name
+   away from it. */
+.author-card img {
+  margin-inline: 0;
+}
+
+/* Homepage cards are the exception to the media cap: the thumbnail *is* the
+   card, so it spans the full column and shares both edges with the title below
+   it. width rather than max-width — Astro emits width/height attributes, so a
+   cap alone would leave the image sitting at its intrinsic size. */
+.post-list img {
+  display: block;
+  width: 100%;
+}
+
 pre {
+  /* em, so it tracks the body size: monospace at the full 19.2px reads oversized
+     next to prose, and code lines are long enough to want the extra room. */
+  font-size: 0.9em;
   overflow-x: auto;
   padding: 1rem;
   border-radius: 8px;

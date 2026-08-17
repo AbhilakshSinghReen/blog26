@@ -3,8 +3,12 @@
  *
  * Contract (see analytics-backend/README.md):
  *   POST /create-session -> 201 {"sessionId": "<ts>---<uuid>"}
+ *                           body: {appName}
  *   POST /record-event   -> 201 {"eventId":   "<type>---<ts>---<uuid>"}
- *                           body: {sessionId, eventType, additionalDetails?}
+ *                           body: {appName, sessionId, eventType, additionalDetails?}
+ *
+ * appName is required on both endpoints (400 otherwise): one deployment serves
+ * several applications and it is what the downstream job partitions on.
  *
  * Two rules shape everything below:
  *
@@ -23,6 +27,10 @@
 // Change this to the deployed ingest host before going live.
 // ─────────────────────────────────────────────────────────────────────────────
 const ANALYTICS_BASE_URL = 'http://localhost:8080';
+
+// Identifies this site in the shared ingest stream. The backend validates it
+// against nothing, so a typo here silently lands the data in its own partition.
+const APP_NAME = 'abhilaksh-blog';
 
 const SESSION_STORAGE_KEY = 'analytics.sessionId';
 const STILL_OPEN_INTERVAL_MS = 10_000;
@@ -83,13 +91,18 @@ function timeoutSignal(): AbortSignal | undefined {
   }
 }
 
-/** POSTs JSON and returns the decoded body, or null on any failure. Never throws. */
-async function post<T>(path: string, body?: unknown): Promise<T | null> {
+/**
+ * POSTs JSON and returns the decoded body, or null on any failure. Never throws.
+ *
+ * `appName` is added here rather than at the call sites: it is required on every
+ * endpoint, so there is no request that should be able to omit it.
+ */
+async function post<T>(path: string, body: Record<string, unknown>): Promise<T | null> {
   try {
     const response = await fetch(ANALYTICS_BASE_URL + path, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: body === undefined ? undefined : JSON.stringify(body),
+      body: JSON.stringify({ appName: APP_NAME, ...body }),
       // Lets the request outlive the page, so the tick that happens to land as
       // the visitor navigates away is still delivered.
       keepalive: true,
@@ -141,7 +154,7 @@ function getSessionId(): Promise<string | null> {
     const existing = readStoredSessionId();
     if (existing) return existing;
 
-    const created = await post<{ sessionId?: string }>('/create-session');
+    const created = await post<{ sessionId?: string }>('/create-session', {});
     if (!created?.sessionId) return null;
 
     writeStoredSessionId(created.sessionId);
