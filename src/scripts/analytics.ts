@@ -23,14 +23,29 @@
  */
 
 // ─────────────────────────────────────────────────────────────────────────────
-// The single place the backend location is configured.
-// Change this to the deployed ingest host before going live.
+// Configuration.
+//
+// Both values default to production, so the deploy workflow needs no env of its
+// own: nothing to forget, nothing to leak. `astro dev` picks up the overrides in
+// .env.development automatically.
 // ─────────────────────────────────────────────────────────────────────────────
-const ANALYTICS_BASE_URL = 'http://localhost:8080';
+
+// https, not http: the site is served over TLS, and a browser blocks a
+// plain-http fetch from an https page as mixed content. That failure is
+// invisible from here — post() below only ever sees a rejected promise.
+const ANALYTICS_BASE_URL =
+  import.meta.env.PUBLIC_ANALYTICS_BASE_URL ?? 'https://analytics.abhilakshsinghreen.com';
 
 // Identifies this site in the shared ingest stream. The backend validates it
 // against nothing, so a typo here silently lands the data in its own partition.
-const APP_NAME = 'abhilaksh-blog';
+// That is also what makes it the segregation mechanism for deliberate local
+// testing: .env.development sets a -dev name, which partitions away from prod.
+const APP_NAME = import.meta.env.PUBLIC_ANALYTICS_APP_NAME ?? 'abhilaksh-blog';
+
+// The hosts whose traffic is real. Everything else — localhost under `astro
+// dev`, `astro preview` or serve-ghpages, a fork, a branch preview — reports
+// nothing unless it opts in via analyticsEnabled() below.
+const ENABLED_HOSTS = new Set(['abhilakshsinghreen.com', 'www.abhilakshsinghreen.com']);
 
 const SESSION_STORAGE_KEY = 'analytics.sessionId';
 const STILL_OPEN_INTERVAL_MS = 10_000;
@@ -205,7 +220,36 @@ async function recordEvent(
   }
 }
 
+/**
+ * Whether this page should report at all.
+ *
+ * Checked at runtime against the real host rather than at build time against
+ * import.meta.env.DEV, because DEV is true only under `astro dev`: both
+ * `npm run preview` and `npm run serve:pages` serve a *production* build from
+ * localhost, and a build-time guard would leave those two firing real events at
+ * the real backend. The host is the thing that is actually true.
+ */
+function analyticsEnabled(): boolean {
+  // Opt-in for working against a local backend; belongs in .env.local, which is
+  // not committed. Pair it with PUBLIC_ANALYTICS_APP_NAME so that even a
+  // deliberate local run lands in its own partition.
+  if (import.meta.env.PUBLIC_ANALYTICS_FORCE === 'true') return true;
+
+  try {
+    return ENABLED_HOSTS.has(window.location.hostname);
+  } catch {
+    return false;
+  }
+}
+
 function start(): void {
+  // Before anything else: no session created, no heartbeat scheduled, and
+  // localStorage left untouched on a host that is not meant to report.
+  if (!analyticsEnabled()) {
+    console.log(`[analytics] disabled on ${window.location.hostname}`);
+    return;
+  }
+
   const base = { url: window.location.href, countryCode: COUNTRY_CODE };
 
   // Every navigation on this site is a full page load, so this runs once per

@@ -3,3 +3,8 @@ node_modules/
 .astro/
 .DS_Store
 *.log
+
+# Local env overrides. .env.development is committed; anything
+# machine-specific (notably PUBLIC_ANALYTICS_FORCE) goes here.
+.env.local
+.env.*.local

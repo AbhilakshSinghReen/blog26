@@ -39,7 +39,11 @@ jobs:
 
       - run: npm run build
 
+      # enablement: true creates the Pages site on first run instead of 404ing.
+      # Needs the pages: write permission above, which the workflow already has.
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       - uses: actions/upload-pages-artifact@v3
         with:
