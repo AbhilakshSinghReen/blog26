@@ -40,6 +40,7 @@ html {
   --muted: #5c6370;
   --border: #e4e6eb;
   --accent: #4f46e5;
+  --code-bg: #f3f4f7;
 }
 
 /* No-JS / no explicit choice: follow the OS. The :not() guard is what lets an
@@ -52,6 +53,7 @@ html {
     --muted: #9aa1ad;
     --border: #262a33;
     --accent: #a5b4fc;
+    --code-bg: #181b22;
   }
 }
 
@@ -62,6 +64,7 @@ html {
   --muted: #9aa1ad;
   --border: #262a33;
   --accent: #a5b4fc;
+  --code-bg: #181b22;
 }
 
 body {
@@ -123,6 +126,102 @@ pre {
   border: 1px solid var(--border);
 }
 
+/* Inline code: a tinted chip so it reads as code, not just a font change.
+   :not(pre) > code leaves fenced blocks alone (Shiki styles those). */
+:not(pre) > code {
+  font-size: 0.88em;
+  padding: 0.12em 0.38em;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--code-bg);
+  /* Long identifiers like non_streaming_mode=False can wrap on a phone
+     rather than push the column sideways. */
+  overflow-wrap: anywhere;
+}
+
+/* Inside a link, keep the link color so it still looks clickable. */
+a > code {
+  color: inherit;
+}
+
+/* Copy button on code blocks (CopyCodeButtons.astro). The wrapper holds the
+   position so the button stays put while the <pre> scrolls sideways. */
+.code-block {
+  position: relative;
+}
+
+/* Room on the right so the button doesn't sit on top of the first line. */
+.code-block pre {
+  padding-right: 3.25rem;
+}
+
+.copy-code {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.copy-code:hover { border-color: var(--accent); color: var(--accent); }
+
+.copy-code:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.copy-code svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.copy-code .icon-check { display: none; }
+.copy-code.copied { color: var(--accent); border-color: var(--accent); }
+.copy-code.copied .icon-copy { display: none; }
+.copy-code.copied .icon-check { display: block; }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Figures with a light and a dark version. An <img> SVG can't see the theme,
+   so the post ships both and CSS shows the one matching data-theme (set by the
+   head script; it falls back to the OS setting when JS is off). Both images
+   carry the alt text: display:none removes the hidden one from the
+   accessibility tree, so it's read once either way. */
+.themed-figure {
+  margin: 1.75rem 0;
+}
+
+.themed-figure .only-dark { display: none; }
+:root[data-theme='dark'] .themed-figure .only-light { display: none; }
+:root[data-theme='dark'] .themed-figure .only-dark { display: block; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .themed-figure .only-light { display: none; }
+  :root:not([data-theme]) .themed-figure .only-dark { display: block; }
+}
+
 /* Tables must scroll inside their own box. Without this a table wider than the
    column drags the whole page sideways on mobile — markdown gives us no wrapper
    element, so the table becomes its own scroll container. */
@@ -145,6 +244,47 @@ article td {
 }
 
 article th { font-weight: 600; }
+
+/* Audio clips in posts: a labelled list of native players. Raw HTML in the
+   markdown, so no component is needed:
+     <figure class="audio-set">
+       <figcaption>What these clips show</figcaption>
+       <ul><li><span>Label</span><audio controls preload="none" src="/audio/…"></audio></li></ul>
+     </figure> */
+.audio-set {
+  margin: 1.5rem 0;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.audio-set figcaption {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+
+.audio-set ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.audio-set li {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.audio-set li span {
+  font-size: 0.9rem;
+}
+
+.audio-set audio {
+  width: 100%;
+  height: 2.5rem;
+}
 
 /* Touch targets. Measured 36px (toggle) and 22px (author links) with a mouse;
    both are tight for a finger, so grow them where the pointer is coarse. */

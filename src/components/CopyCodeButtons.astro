@@ -1,0 +1,65 @@
+---
+// Adds a copy button to every code block in the post.
+//
+// The buttons are created by the script, not rendered in the HTML, so a reader
+// without JS sees plain code blocks rather than a button that does nothing.
+//
+// Each <pre> is wrapped in a positioned container and the button sits on the
+// wrapper: <pre> scrolls horizontally (overflow-x: auto), and a button inside
+// it would scroll away with long lines.
+---
+
+<template id="copy-code-icons">
+  <svg class="icon-copy" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+    <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+  </svg>
+  <svg class="icon-check" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+    <path d="M20 6 9 17l-5-5"></path>
+  </svg>
+</template>
+
+<p class="visually-hidden" aria-live="polite" id="copy-code-status"></p>
+
+<script is:inline>
+  (() => {
+    const icons = document.getElementById('copy-code-icons');
+    const status = document.getElementById('copy-code-status');
+    if (!icons || !navigator.clipboard) return;
+
+    const RESET_MS = 2000;
+
+    document.querySelectorAll('article pre').forEach((pre) => {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'code-block';
+      pre.replaceWith(wrapper);
+      wrapper.append(pre);
+
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'copy-code';
+      button.setAttribute('aria-label', 'Copy code');
+      button.append(icons.content.cloneNode(true));
+      wrapper.append(button);
+
+      let timer;
+      button.addEventListener('click', async () => {
+        const code = pre.querySelector('code') ?? pre;
+        try {
+          await navigator.clipboard.writeText(code.innerText);
+        } catch {
+          return; // Clipboard refused (permissions, insecure origin): leave the icon as is.
+        }
+        button.classList.add('copied');
+        button.setAttribute('aria-label', 'Copied');
+        status.textContent = 'Code copied to clipboard';
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          button.classList.remove('copied');
+          button.setAttribute('aria-label', 'Copy code');
+          status.textContent = '';
+        }, RESET_MS);
+      });
+    });
+  })();
+</script>

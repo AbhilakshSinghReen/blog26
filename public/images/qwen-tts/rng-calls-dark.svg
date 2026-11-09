@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" width="720" height="420" role="img"><title>Where each call&#x27;s random numbers start, for three seeding strategies</title><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#9aa1ad"/></marker></defs>
+<rect width="720" height="420" fill="#0d0f13"/>
+<text x="0.0" y="57.0" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="16" font-weight="600" fill="#e8eaee" text-anchor="start"><tspan x="0.0" dy="0.0">No seed</tspan></text>
+<circle cx="158.0" cy="52.0" r="19" fill="#0d0f13" stroke="#9aa1ad" stroke-width="1.5"/>
+<text x="158.0" y="57.0" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="400" fill="#9aa1ad" text-anchor="middle"><tspan x="158.0" dy="0.0">R0</tspan></text>
+<line x1="177.0" y1="52.0" x2="189.0" y2="52.0" stroke="#9aa1ad" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="191.0" y="30.0" width="130.0" height="44.0" rx="6" fill="#171a21" stroke="#353a45" stroke-width="1.5"/>
+<text x="256.0" y="57.0" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="15" font-weight="400" fill="#e8eaee" text-anchor="middle"><tspan x="256.0" dy="0.0">call 1</tspan></text>
+<line x1="321.0" y1="52.0" x2="327.0" y2="52.0" stroke="#9aa1ad" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="191.0" y="84.0" width="130.0" height="30.0" rx="6" fill="none" stroke="#353a45" stroke-width="1.5"/>
+<text x="256.0" y="104.0" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14" font-weight="400" fill="#e8eaee" text-anchor="middle"><tspan x="256.0" dy="0.0">output D</tspan></text>
+<circle cx="348.0" cy="52.0" r="19" fill="#0d0f13" stroke="#9aa1ad" stroke-width="1.5"/>
+<text x="348.0" y="57.0" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="400" fill="#9aa1ad" text-anchor="middle"><tspan x="348.0" dy="0.0">R1</tspan></text>
+<line x1="367.0" y1="52.0" x2="379.0" y2="52.0" stroke="#9aa1ad" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="381.0" y="30.0" width="130.0" height="44.0" rx="6" fill="#171a21" stroke="#353a45" stroke-width="1.5"/>
+<text x="446.0" y="57.0" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="15" font-weight="400" fill="#e8eaee" text-anchor="middle"><tspan x="446.0" dy="0.0">call 2</tspan></text>
+<line x1="511.0" y1="52.0" x2="517.0" y2="52.0" stroke="#9aa1ad" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="381.0" y="84.0" width="130.0" height="30.0" rx="6" fill="none" stroke="#353a45" stroke-width="1.5"/>
+<text x="446.0" y="104.0" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14" font-weight="400" fill="#e8eaee" text-anchor="middle"><tspan x="446.0" dy="0.0">output E</tspan></text>
+<circle cx="538.0" cy="52.0" r="19" fill="#0d0f13" stroke="#9aa1ad" stroke-width="1.5"/>
+<text x="538.0" y="57.0" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="400" fill="#9aa1ad" text-anchor="middle"><tspan x="538.0" dy="0.0">R2</tspan></text>
+<line x1="557.0" y1="52.0" x2="569.0" y2="52.0" stroke="#9aa1ad" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="571.0" y="30.0" width="130.0" height="44.0" rx="6" fill="#171a21" stroke="#353a45" stroke-width="1.5"/>
+<text x="636.0" y="57.0" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="15" font-weight="400" fill="#e8eaee" text-anchor="middle"><tspan x="636.0" dy="0.0">call 3</tspan></text>
+<rect x="571.0" y="84.0" width="130.0" height="30.0" rx="6" fill="none" stroke="#353a45" stroke-width="1.5"/>
+<text x="636.0" y="104.0" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14" font-weight="400" fill="#e8eaee" text-anchor="middle"><tspan x="636.0" dy="0.0">output F</tspan></text>
+<text x="0.0" y="175.0" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="16" font-weight="600" fill="#e8eaee" text-anchor="start"><tspan x="0.0" dy="0.0">Seed once</tspan></text>
+<circle cx="158.0" cy="170.0" r="19" fill="#0d0f13" stroke="#9aa1ad" stroke-width="1.5"/>
+<text x="158.0" y="175.0" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="400" fill="#9aa1ad" text-anchor="middle"><tspan x="158.0" dy="0.0">S0</tspan></text>
+<line x1="177.0" y1="170.0" x2="189.0" y2="170.0" stroke="#9aa1ad" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="191.0" y="148.0" width="130.0" height="44.0" rx="6" fill="#171a21" stroke="#353a45" stroke-width="1.5"/>
+<text x="256.0" y="175.0" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="15" font-weight="400" fill="#e8eaee" text-anchor="middle"><tspan x="256.0" dy="0.0">call 1</tspan></text>
+<line x1="321.0" y1="170.0" x2="327.0" y2="170.0" stroke="#9aa1ad" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="191.0" y="202.0" width="130.0" height="30.0" rx="6" fill="#262a4a" stroke="#a5b4fc" stroke-width="1.5"/>
+<text x="256.0" y="222.0" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#e8eaee" text-anchor="middle"><tspan x="256.0" dy="0.0">output A</tspan></text>
+<circle cx="348.0" cy="170.0" r="19" fill="#0d0f13" stroke="#9aa1ad" stroke-width="1.5"/>
+<text x="348.0" y="175.0" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="400" fill="#9aa1ad" text-anchor="middle"><tspan x="348.0" dy="0.0">S1</tspan></text>
+<line x1="367.0" y1="170.0" x2="379.0" y2="170.0" stroke="#9aa1ad" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="381.0" y="148.0" width="130.0" height="44.0" rx="6" fill="#171a21" stroke="#353a45" stroke-width="1.5"/>
+<text x="446.0" y="175.0" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="15" font-weight="400" fill="#e8eaee" text-anchor="middle"><tspan x="446.0" dy="0.0">call 2</tspan></text>
+<line x1="511.0" y1="170.0" x2="517.0" y2="170.0" stroke="#9aa1ad" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="381.0" y="202.0" width="130.0" height="30.0" rx="6" fill="none" stroke="#353a45" stroke-width="1.5"/>
+<text x="446.0" y="222.0" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14" font-weight="400" fill="#e8eaee" text-anchor="middle"><tspan x="446.0" dy="0.0">output B</tspan></text>
+<circle cx="538.0" cy="170.0" r="19" fill="#0d0f13" stroke="#9aa1ad" stroke-width="1.5"/>
+<text x="538.0" y="175.0" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="400" fill="#9aa1ad" text-anchor="middle"><tspan x="538.0" dy="0.0">S2</tspan></text>
+<line x1="557.0" y1="170.0" x2="569.0" y2="170.0" stroke="#9aa1ad" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="571.0" y="148.0" width="130.0" height="44.0" rx="6" fill="#171a21" stroke="#353a45" stroke-width="1.5"/>
+<text x="636.0" y="175.0" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="15" font-weight="400" fill="#e8eaee" text-anchor="middle"><tspan x="636.0" dy="0.0">call 3</tspan></text>
+<rect x="571.0" y="202.0" width="130.0" height="30.0" rx="6" fill="none" stroke="#353a45" stroke-width="1.5"/>
+<text x="636.0" y="222.0" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14" font-weight="400" fill="#e8eaee" text-anchor="middle"><tspan x="636.0" dy="0.0">output C</tspan></text>
+<text x="0.0" y="293.0" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="16" font-weight="600" fill="#e8eaee" text-anchor="start"><tspan x="0.0" dy="0.0">Seed before</tspan><tspan x="0.0" dy="20.0">every call</tspan></text>
+<circle cx="158.0" cy="288.0" r="19" fill="#0d0f13" stroke="#9aa1ad" stroke-width="1.5"/>
+<text x="158.0" y="293.0" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="400" fill="#9aa1ad" text-anchor="middle"><tspan x="158.0" dy="0.0">S0</tspan></text>
+<line x1="177.0" y1="288.0" x2="189.0" y2="288.0" stroke="#9aa1ad" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="191.0" y="266.0" width="130.0" height="44.0" rx="6" fill="#171a21" stroke="#353a45" stroke-width="1.5"/>
+<text x="256.0" y="293.0" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="15" font-weight="400" fill="#e8eaee" text-anchor="middle"><tspan x="256.0" dy="0.0">call 1</tspan></text>
+<rect x="191.0" y="320.0" width="130.0" height="30.0" rx="6" fill="#262a4a" stroke="#a5b4fc" stroke-width="1.5"/>
+<text x="256.0" y="340.0" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#e8eaee" text-anchor="middle"><tspan x="256.0" dy="0.0">output A</tspan></text>
+<circle cx="348.0" cy="288.0" r="19" fill="#0d0f13" stroke="#9aa1ad" stroke-width="1.5"/>
+<text x="348.0" y="293.0" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="400" fill="#9aa1ad" text-anchor="middle"><tspan x="348.0" dy="0.0">S0</tspan></text>
+<line x1="367.0" y1="288.0" x2="379.0" y2="288.0" stroke="#9aa1ad" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="381.0" y="266.0" width="130.0" height="44.0" rx="6" fill="#171a21" stroke="#353a45" stroke-width="1.5"/>
+<text x="446.0" y="293.0" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="15" font-weight="400" fill="#e8eaee" text-anchor="middle"><tspan x="446.0" dy="0.0">call 2</tspan></text>
+<rect x="381.0" y="320.0" width="130.0" height="30.0" rx="6" fill="#262a4a" stroke="#a5b4fc" stroke-width="1.5"/>
+<text x="446.0" y="340.0" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#e8eaee" text-anchor="middle"><tspan x="446.0" dy="0.0">output A</tspan></text>
+<circle cx="538.0" cy="288.0" r="19" fill="#0d0f13" stroke="#9aa1ad" stroke-width="1.5"/>
+<text x="538.0" y="293.0" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="400" fill="#9aa1ad" text-anchor="middle"><tspan x="538.0" dy="0.0">S0</tspan></text>
+<line x1="557.0" y1="288.0" x2="569.0" y2="288.0" stroke="#9aa1ad" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="571.0" y="266.0" width="130.0" height="44.0" rx="6" fill="#171a21" stroke="#353a45" stroke-width="1.5"/>
+<text x="636.0" y="293.0" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="15" font-weight="400" fill="#e8eaee" text-anchor="middle"><tspan x="636.0" dy="0.0">call 3</tspan></text>
+<rect x="571.0" y="320.0" width="130.0" height="30.0" rx="6" fill="#262a4a" stroke="#a5b4fc" stroke-width="1.5"/>
+<text x="636.0" y="340.0" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#e8eaee" text-anchor="middle"><tspan x="636.0" dy="0.0">output A</tspan></text>
+<text x="0.0" y="392.0" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="13" font-weight="400" fill="#9aa1ad" text-anchor="start"><tspan x="0.0" dy="0.0">Each call moves the generator forward, so a chained call starts where the last one ended.</tspan></text>
+<text x="0.0" y="410.0" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="13" font-weight="400" fill="#9aa1ad" text-anchor="start"><tspan x="0.0" dy="0.0">Same letter = byte-identical file. Both seeded rows start call 1 at S0, so both give output A.</tspan></text>
+</svg>
